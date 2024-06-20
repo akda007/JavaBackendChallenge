@@ -5,12 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.trevis.startup.javaproject.dto.payload.DepartmentEntityPayload;
+import com.trevis.startup.javaproject.exception.AppResponseException;
 import com.trevis.startup.javaproject.model.DepartmentEntity;
 import com.trevis.startup.javaproject.services.DepartmentService;
 
 public class DepartmentServiceMock implements DepartmentService {
 
     private List<DepartmentEntity> departmentEntities = new ArrayList<DepartmentEntity>();
+	private Long currentId = 1l;
+
+	private Long getCurrentId() {
+		return currentId++;
+	}
 
     @Override
     public DepartmentEntity create(DepartmentEntityPayload payload) {
@@ -18,7 +24,10 @@ public class DepartmentServiceMock implements DepartmentService {
             throw new InvalidParameterException("Name");
         }
 
-        DepartmentEntity entity = new DepartmentEntity(payload.name());
+        DepartmentEntity entity = new DepartmentEntity();
+
+		entity.setId(getCurrentId());
+		entity.setDepartmentName(payload.name());
 
         departmentEntities.add(entity);
 
@@ -27,17 +36,15 @@ public class DepartmentServiceMock implements DepartmentService {
 
 	@Override
 	public DepartmentEntity get(Long id) {
-		DepartmentEntity entity = departmentEntities
+		try {
+			return departmentEntities
 				.stream()
 				.filter(x -> x.getId().equals(id))
 				.findFirst()
 				.get();
-
-		if (entity == null) {
-			throw new InvalidParameterException();
+		} catch (Exception e) {
+			throw new AppResponseException("Department not found", 404);
 		}
-
-		return entity;
 	}
 
     @Override

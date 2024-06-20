@@ -34,10 +34,4 @@ public class DepartmentEntity {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public DepartmentEntity() {}
-
-    public DepartmentEntity(String departmentName) {
-        this.departmentName = departmentName;
-    }
 }

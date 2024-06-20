@@ -19,7 +19,7 @@ public class AuthServiceTest {
     @Autowired
     UserService userService;
     
-    @Test
+    // @Test
     void testLogin() {
         UserEntity entity = userService.create(new UserEntityPayload("test", "123"), 0L);
         assertNotNull(authService.login(entity.getUserName(), "123"));

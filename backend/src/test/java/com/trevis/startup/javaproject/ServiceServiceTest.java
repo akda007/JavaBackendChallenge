@@ -21,21 +21,21 @@ public class ServiceServiceTest {
     void testServiceCreation() {
         
         var service = serviceService.create(
-            new ServiceEntityPayload("Service", "A generic service"),
+            new ServiceEntityPayload("Service", "A generic service", true),
             1l,
             1l
         );
         
         assertNotNull(service);
-        assertEquals(service.getName(), "Service");
-        assertEquals(service.getDescription(), "A generic service");
+        assertEquals("Service", service.getName());
+        assertEquals("A generic service", service.getDescription());
     }
 
     @Test
     void testServiceRead() {
         
         var service = serviceService.create(
-            new ServiceEntityPayload("Service", "A generic service"),
+            new ServiceEntityPayload("Service", "A generic service", true),
             1l,
             1l
         );
@@ -50,13 +50,13 @@ public class ServiceServiceTest {
     void testServiceUpdate() {
 
         var service = serviceService.create(
-            new ServiceEntityPayload("Service", "A generic service"),
+            new ServiceEntityPayload("Service", "A generic service", true),
             1l,
             1l
         );
 
         var updated = serviceService.update(
-            new ServiceEntityPayload("Another Service", "A different service"),
+            new ServiceEntityPayload("Another Service", "A different service", true),
             service.getId()
         );
 
@@ -69,7 +69,7 @@ public class ServiceServiceTest {
     void testServiceDeletion() {
 
         var service = serviceService.create(
-            new ServiceEntityPayload("Service", "A generic service"),
+            new ServiceEntityPayload("Service", "A generic service", true),
             1l,
             1l
         );

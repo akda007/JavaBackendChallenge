@@ -54,9 +54,4 @@ public class ServiceEntity {
     }
 
 
-    public ServiceEntity() {}
-
-    public ServiceEntity(String name, String description) {
-        this.description = description;
-    }
 }

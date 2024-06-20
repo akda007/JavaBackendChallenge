@@ -54,11 +54,5 @@ public class UserEntity {
         this.departmentEntity = departmentEntity;
     }
 
-    public UserEntity() {}
 
-    public UserEntity(String userName, String password, DepartmentEntity departmentEntity) {
-        this.userName = userName;
-        this.password = password;
-        this.departmentEntity = departmentEntity;
-    }
 }

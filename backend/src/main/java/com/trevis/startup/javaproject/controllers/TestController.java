@@ -10,11 +10,11 @@ import com.trevis.startup.javaproject.exception.AppResponseException;
 @RestController
 public class TestController {
 
-    @GetMapping("test")
-    public ResponseEntity<String> test(@RequestParam String letter) {
+    @GetMapping("/vote")
+    public ResponseEntity<String> test(@RequestParam Integer age) {
 
-        if(letter.equals("a")) throw new AppResponseException("Essa não!", 400);
+        if(age < 16) throw new AppResponseException("NÃO PODE VOTAR", 400);
 
-        return ResponseEntity.ok("Nice!");
+        return ResponseEntity.ok("Voto no Eneas confirmado.");
     }   
 }

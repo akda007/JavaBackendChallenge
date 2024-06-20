@@ -1,6 +1,7 @@
 package com.trevis.startup.javaproject.impl;
 
 import com.trevis.startup.javaproject.dto.payload.UserEntityPayload;
+import com.trevis.startup.javaproject.exception.AppResponseException;
 import com.trevis.startup.javaproject.model.UserEntity;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -10,10 +11,16 @@ import com.trevis.startup.javaproject.services.UserService;
 public class UserServiceMock implements UserService {
     
     private List<UserEntity> userList = new ArrayList<>();
+    private Long currentId = 1l;
+
+	private Long getCurrentId() {
+		return currentId++;
+	}
 
     @Override
     public UserEntity create(UserEntityPayload payload, Long departmentId) {
         UserEntity entity = new UserEntity();
+        entity.setId(getCurrentId());
         entity.setPassword(payload.password()); 
         entity.setUserName(payload.userName()); 
         userList.add(entity);
@@ -22,31 +29,29 @@ public class UserServiceMock implements UserService {
     }
 
     @Override
-    public UserEntity get(String userName) throws NoSuchElementException {
-        UserEntity entity = userList.stream()
-        .filter(x -> x.getUserName().equals(userName))
-        .findFirst()
-        .get();
-
-        if (entity == null) {
-            throw new NoSuchElementException();
+    public UserEntity get(String userName) {
+        try {
+            return userList
+                .stream()
+                .filter(x -> x.getUserName().equals(userName))
+                .findFirst()
+                .get();
+        } catch (Exception e) {
+            throw new AppResponseException("User not found", 404);
         }
-
-        return entity;
     }
 
     @Override
     public UserEntity get(Long id) {
-        UserEntity entity = userList.stream()
-            .filter(x -> x.getId().equals(id))
-            .findFirst()
-            .get();
-
-        if (entity == null) {
-            throw new NoSuchElementException();
+        try {
+            return userList
+                .stream()
+                .filter(x -> x.getId().equals(id))
+                .findFirst()
+                .get();
+        } catch (Exception e) {
+            throw new AppResponseException("User not found", 404);
         }
-
-        return entity;
     }
 
     @Override
