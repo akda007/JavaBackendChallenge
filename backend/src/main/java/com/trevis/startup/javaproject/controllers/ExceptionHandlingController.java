@@ -7,6 +7,13 @@ import org.springframework.web.context.request.WebRequest;
 
 import com.trevis.startup.javaproject.exception.AppResponseException;
 
+/**
+ * Catches the AppResponseException and sends an object with the message
+ * to the client. Just use the ControllerAdvice annotation and throw 
+ * AppResponseException out of trycatch scopes so this controller can detect it
+ * @see AppResponseException
+ * @see ControllerAdvice
+ */
 @ControllerAdvice
 public class ExceptionHandlingController {
     

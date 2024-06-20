@@ -6,3 +6,7 @@ O que ele faz? toda vez que você jogar uma exception do tipo AppResponseExcepti
 capturar automaticamente o erro e mandar a mensagem e o status code como resposta.
 
 TEM EXEMPLO NO TEST CONTROLLER
+
+
+
+Também fizemos os DTO's pra payload e o de user pra response, já que não é legal mandar a senha na response né, então ele filtra
