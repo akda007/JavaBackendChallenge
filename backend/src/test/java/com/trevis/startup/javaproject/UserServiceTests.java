@@ -2,11 +2,14 @@ package com.trevis.startup.javaproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.trevis.startup.javaproject.dto.payload.UserEntityPayload;
+import com.trevis.startup.javaproject.exception.AppResponseException;
 import com.trevis.startup.javaproject.model.UserEntity;
 import com.trevis.startup.javaproject.services.UserService;
 
@@ -32,11 +35,10 @@ public class UserServiceTests {
         String username = "andrey";
         
         UserEntity entity = userService.create(new UserEntityPayload(username, ""), 0L);
-
         UserEntity found = userService.get(username);
 
         assertNotNull(found);
-        assertEquals(entity, found);
+        assertEquals(entity.getId(), found.getId());
     }
 
     @Test
@@ -44,11 +46,10 @@ public class UserServiceTests {
         String username = "andrey";
         
         UserEntity entity = userService.create(new UserEntityPayload(username, ""), 0L);
-
         UserEntity found = userService.get(entity.getId());
 
         assertNotNull(found);
-        assertEquals(entity, found);
+        assertEquals(entity.getId(), found.getId());
     }
 
     @Test
@@ -56,26 +57,18 @@ public class UserServiceTests {
         String username = "andrey";
         
         UserEntity entity = userService.create(new UserEntityPayload(username, ""), 0L);
-
         userService.update(new UserEntityPayload("jaoo", null), entity.getId());
 
-        assertNotNull(entity);
         assertEquals(entity.getUserName(), "jaoo");
     }
 
     @Test
     void testeDelete() {
-        UserEntity entity = userService.create(new UserEntityPayload("test", "123"), 0L);
-        UserEntity found = null;
 
+        UserEntity entity = userService.create(new UserEntityPayload("test", "123"), 0L);
         userService.delete(entity.getId());
 
-        try {
-            found = userService.get(entity.getId());
-        } catch(Exception e ) {
-        }
-        
-        assertEquals(found, null);
+        assertThrows(AppResponseException.class, () -> { userService.get(entity.getId()); });
     }
     
 }

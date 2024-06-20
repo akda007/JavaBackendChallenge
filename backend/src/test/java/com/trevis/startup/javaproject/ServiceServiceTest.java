@@ -2,13 +2,14 @@ package com.trevis.startup.javaproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.trevis.startup.javaproject.dto.payload.ServiceEntityPayload;
+import com.trevis.startup.javaproject.exception.AppResponseException;
 import com.trevis.startup.javaproject.services.ServiceService;
 
 @SpringBootTest
@@ -39,11 +40,10 @@ public class ServiceServiceTest {
             1l,
             1l
         );
-
         var found = serviceService.get(service.getId());
 
-        assertNotNull(found);
         assertEquals(found.getName(), service.getName());
+        assertThrows(AppResponseException.class, () -> { serviceService.get(10000l); });
     }
 
     @Test
@@ -73,9 +73,8 @@ public class ServiceServiceTest {
             1l,
             1l
         );
-
         serviceService.delete(service.getId());
 
-        assertNull(serviceService.get(service.getId()));
+        assertThrows(AppResponseException.class, () -> { serviceService.get(service.getId()); });
     }
 }
