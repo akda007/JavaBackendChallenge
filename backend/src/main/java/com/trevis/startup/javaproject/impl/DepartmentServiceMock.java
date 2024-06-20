@@ -1,0 +1,62 @@
+package com.trevis.startup.javaproject.impl;
+
+import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.trevis.startup.javaproject.dto.payload.DepartmentEntityPayload;
+import com.trevis.startup.javaproject.model.DepartmentEntity;
+import com.trevis.startup.javaproject.services.DepartmentService;
+
+public class DepartmentServiceMock implements DepartmentService {
+
+    private List<DepartmentEntity> departmentEntities = new ArrayList<DepartmentEntity>();
+
+    @Override
+    public DepartmentEntity create(DepartmentEntityPayload payload) {
+        if (payload.name() == null) {
+            throw new InvalidParameterException("Name");
+        }
+
+        DepartmentEntity entity = new DepartmentEntity(payload.name());
+
+        departmentEntities.add(entity);
+
+        return entity;
+    }
+
+	@Override
+	public DepartmentEntity get(Long id) {
+		DepartmentEntity entity = departmentEntities
+				.stream()
+				.filter(x -> x.getId().equals(id))
+				.findFirst()
+				.get();
+
+		if (entity == null) {
+			throw new InvalidParameterException();
+		}
+
+		return entity;
+	}
+
+    @Override
+    public DepartmentEntity update(DepartmentEntityPayload payload, Long id) {
+		DepartmentEntity entity = get(id);
+
+		
+		if (payload.name() != null) {
+			entity.setDepartmentName(payload.name());
+		}
+
+		return entity;
+    }
+
+    @Override
+    public void delete(Long id) {
+		DepartmentEntity entity = get(id);
+
+		departmentEntities.remove(entity);
+    }
+    
+}
