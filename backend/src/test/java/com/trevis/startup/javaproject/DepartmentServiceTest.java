@@ -21,34 +21,43 @@ public class DepartmentServiceTest {
     @Test
     void testDepartmentCreation() {
 
-        var department = departmentService.create(new DepartmentEntityPayload("ETS"));
+        String departmentName = "ETS";
+
+        var department = departmentService.create(new DepartmentEntityPayload(departmentName));
 
         assertNotNull(department);
-        assertEquals(department.getDepartmentName(), "ETS");
+        assertEquals(departmentName, department.getDepartmentName());
     }
 
     @Test
     void testGetDepartmentById() {
+
+        String departmentName = "ETS";
         
-        var departmentCreation = departmentService.create(new DepartmentEntityPayload("ETS"));
+        var departmentCreation = departmentService.create(new DepartmentEntityPayload(departmentName));
         var departmentRead = departmentService.get(departmentCreation.getId());
 
-        assertEquals(departmentCreation.getDepartmentName(), departmentRead.getDepartmentName());
+        assertEquals(departmentCreation.getId(), departmentRead.getId());
     }
 
     @Test
     void testDepartmentUpdate() {
 
-        var department = departmentService.create(new DepartmentEntityPayload("ETS"));
-        var updated = departmentService.update(new DepartmentEntityPayload("New ETS"), department.getId());
+        String departmentName = "ETS";
+        String updateDepartmentName = "New ETS";
 
-        assertEquals(updated.getDepartmentName(), "New ETS");
+        var department = departmentService.create(new DepartmentEntityPayload(departmentName));
+        var updated = departmentService.update(new DepartmentEntityPayload(updateDepartmentName), department.getId());
+
+        assertEquals(updateDepartmentName, updated.getDepartmentName());
     }
 
     @Test
     void testDepartmentDeletion() {
 
-        var department = departmentService.create(new DepartmentEntityPayload("ETS"));
+        String departmentName = "ETS";
+
+        var department = departmentService.create(new DepartmentEntityPayload(departmentName));
         departmentService.delete(department.getId());
 
         assertThrows(AppResponseException.class, () -> { departmentService.get(department.getId()); });

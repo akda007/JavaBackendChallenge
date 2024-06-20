@@ -20,58 +20,90 @@ public class ServiceServiceTest {
 
     @Test
     void testServiceCreation() {
+
+        String serviceName = "Service";
+        String serviceDescription = "A generic service";
+        Boolean serviceIntern = true;
         
         var service = serviceService.create(
-            new ServiceEntityPayload("Service", "A generic service", true),
-            1l,
-            1l
+            new ServiceEntityPayload(
+                serviceName,
+                serviceDescription,
+                serviceIntern
+            ), 1l, 1l
         );
         
         assertNotNull(service);
-        assertEquals("Service", service.getName());
-        assertEquals("A generic service", service.getDescription());
+        assertEquals(serviceName, service.getName());
+        assertEquals(serviceDescription, service.getDescription());
     }
 
     @Test
     void testServiceRead() {
         
+        String serviceName = "Service";
+        String serviceDescription = "A generic service";
+        Boolean serviceIntern = true;
+        
         var service = serviceService.create(
-            new ServiceEntityPayload("Service", "A generic service", true),
-            1l,
-            1l
+            new ServiceEntityPayload(
+                serviceName,
+                serviceDescription,
+                serviceIntern
+            ), 1l, 1l
         );
         var found = serviceService.get(service.getId());
 
-        assertEquals(found.getName(), service.getName());
+        assertEquals(service.getName(), found.getName());
         assertThrows(AppResponseException.class, () -> { serviceService.get(10000l); });
     }
 
     @Test
     void testServiceUpdate() {
 
+        String serviceName = "Service";
+        String serviceDescription = "A generic service";
+        Boolean serviceIntern = true;
+
+        String updateServiceName = "Another Service";
+        String updateServiceDescription = "A different service";
+        Boolean updateServiceIntern = false;
+        
         var service = serviceService.create(
-            new ServiceEntityPayload("Service", "A generic service", true),
-            1l,
-            1l
+            new ServiceEntityPayload(
+                serviceName,
+                serviceDescription,
+                serviceIntern
+            ), 1l, 1l
         );
 
         var updated = serviceService.update(
-            new ServiceEntityPayload("Another Service", "A different service", true),
-            service.getId()
+            new ServiceEntityPayload(
+                updateServiceName, 
+                updateServiceDescription, 
+                updateServiceIntern
+            ), service.getId()
         );
 
         assertNotNull(updated);
-        assertEquals(updated.getName(), "Another Service");
-        assertEquals(updated.getDescription(), "A different service");
+        assertEquals(updateServiceName, updated.getName());
+        assertEquals(updateServiceDescription, updated.getDescription());
+        assertEquals(updateServiceIntern, updated.getIntern());
     }
 
     @Test
     void testServiceDeletion() {
 
+        String serviceName = "Service";
+        String serviceDescription = "A generic service";
+        Boolean serviceIntern = true;
+        
         var service = serviceService.create(
-            new ServiceEntityPayload("Service", "A generic service", true),
-            1l,
-            1l
+            new ServiceEntityPayload(
+                serviceName,
+                serviceDescription,
+                serviceIntern
+            ), 1l, 1l
         );
         serviceService.delete(service.getId());
 

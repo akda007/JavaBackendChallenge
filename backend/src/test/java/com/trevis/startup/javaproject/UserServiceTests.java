@@ -20,52 +20,57 @@ public class UserServiceTests {
 
     @Test
     void testCreate() {
-        String username = "andrey";
-        String pw = "123321";
-        UserEntity entity = userService.create(new UserEntityPayload(username, pw), 0L);
+        String username = "UserTester1";
+        String password = "123321";
+        UserEntity entity = userService.create(new UserEntityPayload(username, password), 0L);
 
         assertNotNull(entity);
-
-        assertEquals(entity.getUserName(), username);
-        assertEquals(entity.getPassword(), pw);
+        assertEquals(username, entity.getUserName());
+        assertEquals(password, entity.getPassword());
     }
 
     @Test
     void testGetByUsername(){
-        String username = "andrey";
+        String username = "UserTester2";
+        String password = "password";
         
-        UserEntity entity = userService.create(new UserEntityPayload(username, ""), 0L);
+        UserEntity entity = userService.create(new UserEntityPayload(username, password), 0L);
         UserEntity found = userService.get(username);
 
-        assertNotNull(found);
         assertEquals(entity.getId(), found.getId());
     }
 
     @Test
     void testGetById(){
-        String username = "andrey";
+        String username = "UserTester3";
+        String password = "password";
         
-        UserEntity entity = userService.create(new UserEntityPayload(username, ""), 0L);
+        UserEntity entity = userService.create(new UserEntityPayload(username, password), 0L);
         UserEntity found = userService.get(entity.getId());
 
-        assertNotNull(found);
         assertEquals(entity.getId(), found.getId());
     }
 
     @Test
     void testUpdate() {
-        String username = "andrey";
+        String username = "UserTester4";
+        String password = "password";
+        String updateUsername = "UserTester5";
+        String updatePassword = "newpassword";
         
-        UserEntity entity = userService.create(new UserEntityPayload(username, ""), 0L);
-        userService.update(new UserEntityPayload("jaoo", null), entity.getId());
+        UserEntity entity = userService.create(new UserEntityPayload(username, password), 0L);
+        userService.update(new UserEntityPayload(updateUsername, updatePassword), entity.getId());
 
-        assertEquals(entity.getUserName(), "jaoo");
+        assertEquals(updateUsername, entity.getUserName());
     }
 
     @Test
     void testeDelete() {
 
-        UserEntity entity = userService.create(new UserEntityPayload("test", "123"), 0L);
+        String username = "UserTester6";
+        String password = "password";
+
+        UserEntity entity = userService.create(new UserEntityPayload(username, password), 0L);
         userService.delete(entity.getId());
 
         assertThrows(AppResponseException.class, () -> { userService.get(entity.getId()); });

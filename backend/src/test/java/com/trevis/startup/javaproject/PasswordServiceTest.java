@@ -24,17 +24,15 @@ public class PasswordServiceTest {
         String cryptographed = passwordService.applyCryptography(testPassword);
 
         assertTrue(passwordService.verifyCryptography(testPassword, cryptographed));
-
         assertFalse(passwordService.verifyCryptography(wrongPassword, cryptographed));
     }
 
     // @Test
     void testVeirifyRules() {
-
-        assertEquals(passwordService.verifyRules("@&%$"), 1);
-        assertEquals(passwordService.verifyRules("1234567"), 2);
-        assertEquals(passwordService.verifyRules("12345678"), 3);
-        assertEquals(passwordService.verifyRules("1234567A"), 4);
-        assertEquals(passwordService.verifyRules("12345678Am"), 5);
+        assertEquals(1, passwordService.verifyRules("@&%$"));
+        assertEquals(2, passwordService.verifyRules("1234567"));
+        assertEquals(3, passwordService.verifyRules("12345678"));
+        assertEquals(4, passwordService.verifyRules("1234567A"));
+        assertEquals(5, passwordService.verifyRules("12345678Am"));
     }
 }
