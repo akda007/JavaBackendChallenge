@@ -74,6 +74,10 @@ public class ServiceServiceMock implements ServiceService {
             entity.setDescription(payload.description());
         }
 
+        if (payload.intern() != null) {
+            entity.setIntern(payload.intern());
+        }
+
         return entity;
     }
 
